@@ -1,0 +1,6 @@
+Action: 
+Download
+File name: AuditFile_mezzolabs-my.sharepoint.com
+Url: https://mezzolabs-my.sharepoint.com/personal/zeena_mezzolabs_com/_layouts/15/onedrive.aspx?login_hint=zeena%40mezzolabs%2Ecom
+User id/name: 
+Timestamp: 25.11.2022_14.30.18
