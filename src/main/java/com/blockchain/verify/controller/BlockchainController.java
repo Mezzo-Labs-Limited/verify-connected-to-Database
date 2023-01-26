@@ -1,12 +1,18 @@
 package com.blockchain.verify.controller;
 
+import com.blockchain.verify.entity.TransactionEntity;
+import com.blockchain.verify.entity.TransactionRepository;
 import com.blockchain.verify.model.BlockData;
 import com.blockchain.verify.service.BlockchainService;
 import com.blockchain.verify.model.Block;
+import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 1. blockchain will be represented using an array list
@@ -30,23 +36,39 @@ import java.util.ArrayList;
  */
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
+@RequiredArgsConstructor(onConstructor = @__({@Autowired}))
+@Transactional
 public class BlockchainController {
 
     private final BlockchainService blockchainService;
+    private final TransactionRepository transactionRepository;
 
-    public BlockchainController() throws IOException {
-        blockchainService = new BlockchainService();
-    }
-
-    // used for tests to give us access to a blockchain service for testing
-    public BlockchainController(BlockchainService blockchainService) {
-        this.blockchainService = blockchainService;
-    }
+//    public BlockchainController() throws IOException {
+//        blockchainService = new BlockchainService();
+//    }
+//
+//    // used for tests to give us access to a blockchain service for testing
+//    public BlockchainController(BlockchainService blockchainService) {
+//        this.blockchainService = blockchainService;
+//    }
 
 
     @GetMapping("/display-blockchain")
     public ArrayList<Block> display() {
+        if (blockchainService.getBlockchain().size() < 5) {
+            populateBlockchainFromTheDatabase();
+        }
+
         return blockchainService.getBlockchain();
+    }
+
+    private void populateBlockchainFromTheDatabase() {
+        transactionRepository.findAll().stream()
+                .map(transactionEntity -> new BlockData(transactionEntity.getTxnHash(), transactionEntity.getTimestamp(), transactionEntity.getId()))
+                .forEach(blockData -> {
+                    Block block = blockchainService.createBlock(blockData);
+                    blockchainService.addBlock(block);
+                });
     }
 
 
@@ -71,10 +93,17 @@ public class BlockchainController {
         blockchainService.calculateProofOfWork(15, block);
 
         // add block
+      /*  TransactionEntity entity = new TransactionEntity();
+        //entity.setId(blockData.getTransactionID());
+        entity.setTimestamp(blockData.getTimestamp());
+        entity.setTxnHash(blockData.getTransaction());
+
+        transactionRepository.save(entity);
+
+       */
         blockchainService.addBlock(block);
 
         return "You have successfully added a block!";
-
     }
 }
 

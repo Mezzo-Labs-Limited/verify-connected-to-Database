@@ -23,4 +23,9 @@ public class BlockchainEntity {
     public ArrayList<Block> getBlockchain(){ return blockchain;}
 
     public Block getLatestBlock(){ return blockchain.get(blockchain.size() -1);}
+
+    // This method shouldn't be used or exist, it's a temporary measure
+    public void deleteAllBlocks() {
+        blockchain.clear();
+    }
 }

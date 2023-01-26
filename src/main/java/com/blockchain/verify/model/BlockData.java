@@ -21,20 +21,28 @@ import java.util.List;
 @ToString
 @Getter
 @Setter
-
-
 public class BlockData {
     private final String transaction;
     private final LocalDateTime timestamp;
     private Integer transactionID;
 
     public BlockData() throws IOException {
-
-        this.transaction = this.Transaction();
+        this.transaction = this.transaction();
         this.timestamp = LocalDateTime.now();
         this.transactionID = getTransactionID();
     }
-    public String Transaction() throws IOException {
+
+    public BlockData(String transaction, LocalDateTime timestamp, Integer transactionID) {
+        this.transaction = transaction;
+        this.timestamp = timestamp;
+        this.transactionID = transactionID;
+    }
+
+    /**
+     * The code below reads the data from the log file and hashes the output.
+     * The output is stored in Transaction variable
+     * */
+    public String transaction() throws IOException {
 
         List<String> stngFile = new ArrayList<String>();
 
@@ -57,7 +65,7 @@ public class BlockData {
                         +timestamp.toString()
                         +nonce);
         }
-        return Transaction();
+        return transaction();
     }
 
 
