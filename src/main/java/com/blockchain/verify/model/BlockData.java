@@ -14,6 +14,10 @@ import java.util.Arrays;
 import java.util.List;
 
 
+/**
+ * This class hold the data that is stored on the blockchain.
+ * */
+
 @ToString
 @Getter
 @Setter
@@ -34,7 +38,7 @@ public class BlockData {
 
         List<String> stngFile = new ArrayList<String>();
 
-        BufferedReader bfredr = new BufferedReader(new FileReader("C:\\Users\\Saima\\Documents\\projects\\REACT\\zeena-repo\\KTP-BC-without-DB-\\src\\main\\resources\\AuditFile_mezzolabs-my.sharepoint.com_25.11.2022_14.30.18.txt"));
+        BufferedReader bfredr = new BufferedReader(new FileReader("C:\\Users\\Zeena\\Documents\\KTP project\\Desktop app\\util_ui\\log.txt"));
 
         String text = bfredr.readLine();
         while (text != null) {

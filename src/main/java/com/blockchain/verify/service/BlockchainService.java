@@ -1,13 +1,18 @@
 package com.blockchain.verify.service;
 
 import com.blockchain.verify.entity.BlockchainEntity;
+import com.blockchain.verify.entity.TransactionEntity;
+import com.blockchain.verify.entity.TransactionRepository;
 import com.blockchain.verify.miner.BlockchainMiner;
 import com.blockchain.verify.model.Block;
 import com.blockchain.verify.model.BlockData;
 import com.blockchain.verify.validation.BlockchainValidator;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 1. checkBlockHash: a simple helper function that makes sure the block contents match the hash
@@ -19,10 +24,15 @@ import java.util.ArrayList;
  *
  * Create block -> validations -> add to blockchain**/
 
+@Service
 public class BlockchainService {
     private final BlockchainEntity blockchainEntity;
     private final BlockchainValidator blockchainValidator;
     private final BlockchainMiner blockchainMiner;
+
+    @Autowired
+    private TransactionRepository transactionRepository;
+
 
     public BlockchainService() throws IOException {
         blockchainEntity = new BlockchainEntity();
@@ -30,6 +40,22 @@ public class BlockchainService {
         blockchainMiner = new BlockchainMiner();
 
     }
+    public List<TransactionEntity> getAllTransactions(){
+        List<TransactionEntity> transactions = new ArrayList<>();
+        transactionRepository.findAll().forEach(transactions::add);
+        return transactions;
+    }
+    public void addTransaction(TransactionEntity transaction){
+        transactionRepository.save(transaction);
+    }
+    public TransactionEntity getTransaction(Integer id){
+      return transactionRepository.findById(id).orElse(null);
+
+    }
+    public void updateTransaction(TransactionEntity transaction){
+        transactionRepository.save(transaction);
+    }
+
 
     public ArrayList<Block> getBlockchain() {
         return blockchainEntity.getBlockchain();

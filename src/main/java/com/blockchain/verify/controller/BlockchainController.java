@@ -52,16 +52,22 @@ public class BlockchainController {
 
     @PostMapping("/add-block")
     public String addBlock(@RequestBody BlockData blockData) {
-        // create block
+        /**
+         * create block
+         * */
         Block block = blockchainService.createBlock(blockData);
 
-        // validation
+        /**
+         * validation
+         * */
         boolean validationResult = blockchainService.validateBlock(block);
         if(!validationResult){
             return "Block Invalid, cannot be added!";
         }
 
-        // proof of work
+        /**
+         * proof of work
+         * */
         blockchainService.calculateProofOfWork(15, block);
 
         // add block

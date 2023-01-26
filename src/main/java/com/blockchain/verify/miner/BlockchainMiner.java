@@ -7,7 +7,9 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class BlockchainMiner {
 
-    // Keeps recalculating a random hash until that hash has the same number of zero's at the difficulty integer
+    /**
+     * Keeps recalculating a random hash until that hash has the same number of zero's at the difficulty integer
+     * */
     public boolean calculateProofOfWork(int difficulty, Block block) {
         int nonce = 0;
         int numberOfZerosInHash = countCharacters(calculateHash(block, nonce), '0'); // initially calculate hash

@@ -5,6 +5,11 @@ import com.blockchain.verify.util.Crypt;
 
 import java.util.ArrayList;
 
+/**
+ * This class performs the validation process for the blockchain.
+ * If the hash of previous block equals the current that means it's valid.
+ * The chain is valid when current block hash is equal to previous hash.
+ * */
 public class BlockchainValidator {
     public boolean validatePreviouseHashes(Block previouseBlock, Block currentBlock){
         return previouseBlock.getHash().equals(currentBlock.getPreviousBlockHash());
@@ -14,7 +19,7 @@ public class BlockchainValidator {
         return previousBlock.getBlockID().equals(currentBlock.getBlockID() -1);
     }
 
-    // if the block data hash and the block hash match that means its successful, return true in this case, if this fails return false.
+    /** if the block data hash and the block hash match that means its successful, return true in this case, if this fails return false.*/
 
     public boolean validateBlockHash(Block block){
         String expectedHash = Crypt.calculateHash(block.getBlockData().toString()
